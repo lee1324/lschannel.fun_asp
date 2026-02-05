@@ -100,3 +100,7 @@ TestResult.xml
 
 # Project: media (copy in locally per README)
 wwwroot/multimedia/
+
+# Deploy packs and deploy config (build artifacts / server-specific)
+*.gz
+deploy/
