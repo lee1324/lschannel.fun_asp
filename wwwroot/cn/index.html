@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LS Channel - 欢迎</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Microsoft YaHei', '微软雅黑', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 1rem;
+            user-select: none;
+        }
+        
+        .nav-tab:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        
+        .nav-tab:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .nav-tab:not(:last-child) {
+            border-right: none;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+        
+        .nav-tab a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .container {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 1400px;
+            width: 95%;
+            margin: 2rem auto;
+        }
+        
+        .container.about-mode {
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .container.full-width-mode {
+            max-width: 100%;
+            width: 100%;
+            padding: 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            margin: 0;
+        }
+        
+        #lsLearns-contents,
+        #paintings-contents,
+        #music-contents {
+            transform: none !important;
+            align-items: start !important;
+            animation: none !important;
+        }
+        
+        .tab-content {
+            animation: none !important;
+        }
+        
+        #lsLearns-contents > div,
+        #paintings-contents > div,
+        #music-contents > div {
+            position: relative !important;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-top: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-section {
+            margin-top: 2rem;
+        }
+        
+        .tab-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tab-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            display: block;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .avatar[src=""], .avatar:not([src]), img.avatar[src*="avatar.jpg"]:not([src*="data:"]) {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+        }
+        
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-modal.active {
+            display: flex;
+        }
+        
+        .video-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            background: #000;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .video-modal video {
+            width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        
+        .video-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+        
+        .video-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .content-item {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .content-item:hover {
+            transform: translateY(-5px);
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-tabs">
+            <li class="nav-tab active" data-tab="lsLearns" onclick="switchTab('lsLearns');">
+                <a href="#lsLearns">ls学</a>
+            </li>
+            <li class="nav-tab" data-tab="paintings" onclick="switchTab('paintings');">
+                <a href="#paintings">手绘</a>
+            </li>
+            <li class="nav-tab" data-tab="music" onclick="switchTab('music');">
+                <a href="#music">音乐</a>
+            </li>
+            <li class="nav-tab" data-tab="about-ls" onclick="switchTab('about-ls');">
+                <a href="#about-ls">关于</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div id="lsLearns" class="tab-content active">
+            <div id="lsLearns-contents" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; padding: 2rem; min-height: 400px; width: 100%; transform: none;">
+                <!-- Videos will be loaded here -->
+            </div>
+        </div>
+        
+        <div id="paintings" class="tab-content">
+            <div id="paintings-contents" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; padding: 2rem; min-height: 400px; width: 100%; transform: none !important; transform-origin: top left !important; align-items: start;">
+                <!-- Paintings will be loaded here -->
+            </div>
+        </div>
+        
+        <div id="music" class="tab-content">
+            <div id="music-contents" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; padding: 2rem; min-height: 400px; width: 100%; transform: none;">
+                <!-- Music videos will be loaded here -->
+            </div>
+        </div>
+        
+        <div id="about-ls" class="tab-content">
+            <img src="/images/avatar.JPG" alt="头像" class="avatar" />
+            <h1>ls</h1>
+            <div class="subtitle">喜欢自然科学、手绘、技术、音乐和潜水</div>
+            <div class="tab-section">
+                <p id="about-ls-text">"努力做地更好"</p>
+            </div>
+        </div>
+        
+        <div class="info" id="download-files-section" style="margin-top: 2rem; display: none;">
+            <a href="#" style="display: inline-block; padding: 1rem 2rem; background: rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff; text-decoration: none; font-weight: 600; transition: all 0.3s;">
+                📥 下载文件
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            
+            // Toggle container styling based on tab
+            const container = document.querySelector('.container');
+            if (tabName === 'about-ls') {
+                container.classList.add('about-mode');
+                container.classList.remove('full-width-mode');
+            } else if (tabName === 'lsLearns' || tabName === 'paintings' || tabName === 'music') {
+                container.classList.add('full-width-mode');
+                container.classList.remove('about-mode');
+            } else {
+                container.classList.remove('about-mode');
+                container.classList.remove('full-width-mode');
+            }
+            
+            // Update URL hash without scrolling
+            history.pushState(null, null, '#' + tabName);
+            
+            // Hide download files button (always hidden)
+            const downloadSection = document.getElementById('download-files-section');
+            if (downloadSection) downloadSection.style.display = 'none';
+            
+            // Load tab contents
+            if (tabName === 'lsLearns') {
+                console.log('lsLearns tab clicked, calling loadTestTabVideos()');
+                loadTestTabVideos();
+            } else if (tabName === 'paintings') {
+                console.log('paintings tab clicked, calling loadPaintings()');
+                loadPaintings();
+            } else if (tabName === 'music') {
+                console.log('music tab clicked, calling loadMusic()');
+                loadMusic();
+            }
+        }
+        
+        function loadTestTabVideos() {
+            console.log('=== loadTestTabVideos() called ===');
+            const contentDiv = document.getElementById('lsLearns-contents');
+            if (!contentDiv) {
+                console.error('ERROR: lsLearns-contents element not found');
+                return;
+            }
+            console.log('✓ Found lsLearns-contents div');
+            
+            // Hardcode the video list for testing
+            const videos = [
+                'v0300fg10000cukaupnog65hqk6n4v40.MP4',
+                'v0300fg10000cvl5o3nog65u79ldrga0.MP4',
+                'v0300fg10000cvp0crvog65nnvdmvl5g.MP4',
+                'v1e00fgi0000d0nb60fog65l1egq5500.MP4',
+                'v1e00fgi0000d0phdl7og65plafve0p0.MP4',
+                'v1e00fgi0000d10gsj7og65uq7d1hesg.MP4',
+                'v2700fgi0000d5qpjbnog65ld5o1t6ng.MP4'
+            ];
+            
+            console.log('Clearing contentDiv...');
+            contentDiv.innerHTML = '';
+            
+            // Use absolute path from webapp root
+            const basePath = '';
+            console.log('Base path:', basePath);
+            
+            videos.forEach((filename, index) => {
+                const videoPath = basePath + '/multimedia/lsLearns/' + filename;
+                console.log(`Creating video thumbnail ${index + 1}/${videos.length}: ${filename}`);
+                
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
+                thumbnailDiv.onmouseenter = function() {
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+                    this.style.opacity = '0.9';
+                };
+                thumbnailDiv.onmouseleave = function() {
+                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                    this.style.opacity = '1';
+                };
+                
+                // Create canvas for thumbnail - set display size first
+                const canvas = document.createElement('canvas');
+                canvas.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                // Set canvas resolution to match display size (will be scaled by CSS)
+                canvas.width = 400;
+                canvas.height = 225; // 16:9 aspect ratio
+                
+                // Create hidden video to capture thumbnail
+                const tempVideo = document.createElement('video');
+                tempVideo.src = videoPath;
+                tempVideo.preload = 'metadata';
+                tempVideo.muted = true;
+                tempVideo.playsInline = true;
+                tempVideo.style.cssText = 'display: none; width: 400px; height: 225px;';
+                
+                tempVideo.onloadedmetadata = function() {
+                    try {
+                        this.currentTime = 0.5;
+                    } catch(e) {
+                        console.warn('Could not set currentTime:', e);
+                    }
+                };
+                
+                tempVideo.onseeked = function() {
+                    try {
+                        const ctx = canvas.getContext('2d');
+                        // Draw video frame scaled to canvas size, maintaining aspect ratio
+                        const videoAspect = this.videoWidth / this.videoHeight;
+                        const canvasAspect = canvas.width / canvas.height;
+                        let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
+                        
+                        if (videoAspect > canvasAspect) {
+                            // Video is wider - fit to height
+                            drawHeight = canvas.height;
+                            drawWidth = drawHeight * videoAspect;
+                            offsetX = (canvas.width - drawWidth) / 2;
+                        } else {
+                            // Video is taller - fit to width
+                            drawWidth = canvas.width;
+                            drawHeight = drawWidth / videoAspect;
+                            offsetY = (canvas.height - drawHeight) / 2;
+                        }
+                        
+                        ctx.drawImage(tempVideo, offsetX, offsetY, drawWidth, drawHeight);
+                        console.log('✓ Thumbnail captured:', filename);
+                        tempVideo.remove();
+                    } catch(e) {
+                        console.warn('Could not capture thumbnail:', e);
+                        canvas.style.background = 'rgba(0, 0, 0, 0.7)';
+                    }
+                };
+                
+                tempVideo.onerror = function(e) {
+                    console.error('✗ Video error:', filename, 'Path:', videoPath, 'Error:', e);
+                    canvas.style.background = 'rgba(0, 0, 0, 0.7)';
+                };
+                
+                thumbnailDiv.appendChild(canvas);
+                document.body.appendChild(tempVideo);
+                
+                thumbnailDiv.onclick = () => {
+                    console.log('Video clicked, loading full video:', filename);
+                    playVideo(videoPath);
+                };
+                
+                contentDiv.appendChild(thumbnailDiv);
+                console.log('✓ Appended video thumbnail to DOM');
+            });
+            
+            console.log('=== Finished loading', videos.length, 'videos ===');
+            console.log('ContentDiv children count:', contentDiv.children.length);
+        }
+        
+        function loadPaintings() {
+            console.log('=== loadPaintings() called ===');
+            const contentDiv = document.getElementById('paintings-contents');
+            if (!contentDiv) {
+                console.error('ERROR: paintings-contents element not found');
+                return;
+            }
+            console.log('✓ Found paintings-contents div');
+            
+            // List of painting files from multimedia/paintings folder
+            const paintings = [
+                'psc (1).jpeg', 'psc (1).png', 'psc (10).jpeg', 'psc (11).jpeg',
+                'psc (12).jpeg', 'psc (13).jpeg', 'psc (14).jpeg', 'psc (15).jpeg',
+                'psc (16).jpeg', 'psc (17).jpeg', 'psc (18).jpeg', 'psc (19).jpeg',
+                'psc (2).jpeg', 'psc (2).png', 'psc (20).jpeg', 'psc (21).jpeg',
+                'psc (22).jpeg', 'psc (23).jpeg', 'psc (24).jpeg', 'psc (25).jpeg',
+                'psc (3).jpeg', 'psc (3).png', 'psc (4).jpeg', 'psc (4).png',
+                'psc (5).jpeg', 'psc (6).jpeg', 'psc (7).jpeg', 'psc (8).jpeg',
+                'psc (9).jpeg', 'psc.jpeg', 'psc.png'
+            ];
+            
+            console.log('Clearing contentDiv...');
+            contentDiv.innerHTML = '';
+            
+            // Use absolute path from webapp root
+            const basePath = '';
+            console.log('Base path:', basePath);
+            
+            paintings.forEach((filename, index) => {
+                const imagePath = basePath + '/multimedia/paintings/' + filename;
+                console.log(`Creating image ${index + 1}/${paintings.length}: ${filename}`);
+                
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.className = 'painting-thumbnail';
+                thumbnailDiv.style.cssText = 'position: relative !important; width: 100% !important; aspect-ratio: 1 !important; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
+                thumbnailDiv.onmouseenter = function() {
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+                    this.style.opacity = '0.9';
+                };
+                thumbnailDiv.onmouseleave = function() {
+                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                    this.style.opacity = '1';
+                };
+                
+                const img = document.createElement('img');
+                img.loading = 'lazy';
+                img.src = imagePath;
+                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                img.onload = function() {
+                    console.log('✓ Image thumbnail loaded:', filename);
+                };
+                img.onerror = function(e) {
+                    console.error('✗ Image error:', filename, 'Path:', imagePath, 'Error:', e);
+                };
+                
+                thumbnailDiv.appendChild(img);
+                thumbnailDiv.onclick = () => {
+                    console.log('Image clicked:', filename);
+                    showImage(imagePath);
+                };
+                
+                contentDiv.appendChild(thumbnailDiv);
+                console.log('✓ Appended image element to DOM');
+            });
+            
+            console.log('=== Finished loading', paintings.length, 'paintings ===');
+            console.log('ContentDiv children count:', contentDiv.children.length);
+        }
+        
+        function showImage(imagePath) {
+            // Create or get image modal
+            let modal = document.getElementById('image-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'image-modal';
+                modal.className = 'video-modal';
+                modal.innerHTML = '<div class="video-modal-content"><button class="video-modal-close" onclick="closeImage()">×</button><img style="width: 100%; max-height: 90vh; object-fit: contain; border-radius: 8px;"></img></div>';
+                document.body.appendChild(modal);
+                
+                // Close on background click
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeImage();
+                    }
+                });
+            }
+            
+            const img = modal.querySelector('img');
+            img.src = imagePath;
+            modal.classList.add('active');
+            
+            // Close on Escape key
+            document.addEventListener('keydown', function escapeHandler(e) {
+                if (e.key === 'Escape') {
+                    closeImage();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            });
+        }
+        
+        function closeImage() {
+            const modal = document.getElementById('image-modal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
+        function loadMusic() {
+            console.log('=== loadMusic() called ===');
+            const contentDiv = document.getElementById('music-contents');
+            if (!contentDiv) {
+                console.error('ERROR: music-contents element not found');
+                return;
+            }
+            console.log('✓ Found music-contents div');
+            
+            // List of music video files from multimedia/music folder
+            const musicVideos = [
+                'v0300fg10000cuhffhfog65tb5b391ug.MP4',
+                'v0300fg10000cuhfi7fog65hfrf1k05g.MP4',
+                'v1e00fgi0000cut4p77og65ohigvn790.MP4',
+                'v1e00fgi0000cuuof9nog65vq40vhad0.MP4'
+            ];
+            
+            console.log('Clearing contentDiv...');
+            contentDiv.innerHTML = '';
+            
+            // Use absolute path from webapp root
+            const basePath = '';
+            console.log('Base path:', basePath);
+            
+            musicVideos.forEach((filename, index) => {
+                const videoPath = basePath + '/multimedia/music/' + filename;
+                console.log(`Creating video thumbnail ${index + 1}/${musicVideos.length}: ${filename}`);
+                
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
+                thumbnailDiv.onmouseenter = function() {
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+                    this.style.opacity = '0.9';
+                };
+                thumbnailDiv.onmouseleave = function() {
+                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                    this.style.opacity = '1';
+                };
+                
+                // Create canvas for thumbnail - set display size first
+                const canvas = document.createElement('canvas');
+                canvas.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                // Set canvas resolution to match display size (will be scaled by CSS)
+                canvas.width = 400;
+                canvas.height = 225; // 16:9 aspect ratio
+                
+                // Create hidden video to capture thumbnail
+                const tempVideo = document.createElement('video');
+                tempVideo.src = videoPath;
+                tempVideo.preload = 'metadata';
+                tempVideo.muted = true;
+                tempVideo.playsInline = true;
+                tempVideo.style.cssText = 'display: none; width: 400px; height: 225px;';
+                
+                tempVideo.onloadedmetadata = function() {
+                    try {
+                        this.currentTime = 0.5;
+                    } catch(e) {
+                        console.warn('Could not set currentTime:', e);
+                    }
+                };
+                
+                tempVideo.onseeked = function() {
+                    try {
+                        const ctx = canvas.getContext('2d');
+                        // Draw video frame scaled to canvas size, maintaining aspect ratio
+                        const videoAspect = this.videoWidth / this.videoHeight;
+                        const canvasAspect = canvas.width / canvas.height;
+                        let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
+                        
+                        if (videoAspect > canvasAspect) {
+                            // Video is wider - fit to height
+                            drawHeight = canvas.height;
+                            drawWidth = drawHeight * videoAspect;
+                            offsetX = (canvas.width - drawWidth) / 2;
+                        } else {
+                            // Video is taller - fit to width
+                            drawWidth = canvas.width;
+                            drawHeight = drawWidth / videoAspect;
+                            offsetY = (canvas.height - drawHeight) / 2;
+                        }
+                        
+                        ctx.drawImage(tempVideo, offsetX, offsetY, drawWidth, drawHeight);
+                        console.log('✓ Thumbnail captured:', filename);
+                        tempVideo.remove();
+                    } catch(e) {
+                        console.warn('Could not capture thumbnail:', e);
+                        canvas.style.background = 'rgba(0, 0, 0, 0.7)';
+                    }
+                };
+                
+                tempVideo.onerror = function(e) {
+                    console.error('✗ Video error:', filename, 'Path:', videoPath, 'Error:', e);
+                    canvas.style.background = 'rgba(0, 0, 0, 0.7)';
+                };
+                
+                thumbnailDiv.appendChild(canvas);
+                document.body.appendChild(tempVideo);
+                
+                thumbnailDiv.onclick = () => {
+                    console.log('Video clicked, loading full video:', filename);
+                    playVideo(videoPath);
+                };
+                
+                contentDiv.appendChild(thumbnailDiv);
+                console.log('✓ Appended video thumbnail to DOM');
+            });
+            
+            console.log('=== Finished loading', musicVideos.length, 'music videos ===');
+            console.log('ContentDiv children count:', contentDiv.children.length);
+        }
+        
+        function playVideo(videoPath) {
+            // Create or get video modal
+            let modal = document.getElementById('video-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'video-modal';
+                modal.className = 'video-modal';
+                modal.innerHTML = '<div class="video-modal-content"><button class="video-modal-close" onclick="closeVideo()">×</button><video controls autoplay></video></div>';
+                document.body.appendChild(modal);
+                
+                // Close on background click
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeVideo();
+                    }
+                });
+            }
+            
+            const video = modal.querySelector('video');
+            // videoPath already includes ../ prefix if needed
+            video.src = videoPath;
+            video.load();
+            modal.classList.add('active');
+            
+            // Close on Escape key
+            document.addEventListener('keydown', function escapeHandler(e) {
+                if (e.key === 'Escape') {
+                    closeVideo();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            });
+        }
+        
+        function closeVideo() {
+            const modal = document.getElementById('video-modal');
+            if (modal) {
+                const video = modal.querySelector('video');
+                if (video) {
+                    video.pause();
+                    video.src = '';
+                }
+                modal.classList.remove('active');
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Handle initial hash on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            let hash = window.location.hash.substring(1);
+            // Redirect old #science hash to #lsLearns
+            if (hash === 'science') {
+                hash = 'lsLearns';
+                history.replaceState(null, null, '#lsLearns');
+            }
+            if (hash && ['lsLearns', 'paintings', 'music', 'about-ls'].includes(hash)) {
+                switchTab(hash);
+            } else {
+                // Load videos for default lsLearns tab
+                console.log('Page loaded, calling loadTestTabVideos()');
+                loadTestTabVideos();
+                // Set container to full-width mode for default tab
+                const container = document.querySelector('.container');
+                container.classList.add('full-width-mode');
+                container.classList.remove('about-mode');
+            }
+        });
+    </script>
+</body>
+</html>
