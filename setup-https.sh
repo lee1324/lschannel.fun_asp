@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
 # Setup script for HTTPS on lschannel.fun
 # Run this on your remote server after obtaining the certificate
+# Works on both Debian/Ubuntu (sites-available/sites-enabled) and CentOS/RHEL (conf.d)
 
 set -e
 
 echo "Setting up Nginx configuration for lschannel.fun..."
 
+# Detect OS type
+if [ -d "/etc/nginx/sites-available" ]; then
+    # Debian/Ubuntu style
+    CONFIG_DIR="/etc/nginx/sites-available"
+    ENABLED_DIR="/etc/nginx/sites-enabled"
+    CONFIG_FILE="$CONFIG_DIR/lschannel.fun"
+    ENABLED_FILE="$ENABLED_DIR/lschannel.fun"
+else
+    # CentOS/RHEL style
+    CONFIG_DIR="/etc/nginx/conf.d"
+    CONFIG_FILE="$CONFIG_DIR/lschannel.fun.conf"
+    ENABLED_FILE=""
+fi
+
 # Create nginx config file
-sudo tee /etc/nginx/sites-available/lschannel.fun > /dev/null <<'EOF'
+sudo tee "$CONFIG_FILE" > /dev/null <<'EOF'
 # HTTP server - redirect to HTTPS
 server {
     listen 80;
@@ -60,16 +75,18 @@ server {
     # Increase body size limit for large file uploads/downloads
     client_max_body_size 2G;
 
-    # Proxy all requests to ASP.NET Core app (running on port 80)
+    # Proxy all requests to ASP.NET Core app (running on port 8080)
+    # Note: Change this port if your app runs on a different port
     location / {
-        proxy_pass http://127.0.0.1:80;
+        proxy_pass http://127.0.0.1:8080;
     }
 }
 EOF
 
-# Create symlink if it doesn't exist
-if [ ! -L /etc/nginx/sites-enabled/lschannel.fun ]; then
-    sudo ln -s /etc/nginx/sites-available/lschannel.fun /etc/nginx/sites-enabled/lschannel.fun
+# Create symlink if needed (Debian/Ubuntu only)
+if [ -n "$ENABLED_FILE" ] && [ ! -L "$ENABLED_FILE" ]; then
+    sudo mkdir -p "$ENABLED_DIR"
+    sudo ln -s "$CONFIG_FILE" "$ENABLED_FILE"
 fi
 
 # Test nginx configuration

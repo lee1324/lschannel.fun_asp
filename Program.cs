@@ -5,6 +5,14 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Default to port 8080 (HTTP) if ASPNETCORE_URLS is not set (for nginx reverse proxy)
+// For production: nginx handles HTTPS (443) and proxies to app on HTTP (8080)
+// For local dev: can use HTTPS on 8443 if needed
+if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")))
+{
+    builder.WebHost.UseUrls("http://0.0.0.0:8080");
+}
+
 builder.Services.Configure<FormOptions>(o =>
 {
     o.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024; // 2 GB
