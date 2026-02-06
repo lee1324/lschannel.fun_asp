@@ -48,7 +48,22 @@ app.Use(async (context, next) =>
     await next();
 });
 
-// 3) Static files (for /images, /multimedia, /en/index.html direct request, etc.)
+// 3) API: list files in multimedia/downloads for the Download tab
+app.MapGet("/api/downloads", () =>
+{
+    var downloadsDir = Path.Combine(webRoot, "multimedia", "downloads");
+    if (!Directory.Exists(downloadsDir))
+        return Results.Json(Array.Empty<object>());
+    var files = Directory.GetFiles(downloadsDir)
+        .Select(f => new FileInfo(f))
+        .Where(fi => !fi.Name.StartsWith(".", StringComparison.Ordinal))
+        .OrderBy(fi => fi.Name)
+        .Select(fi => new { name = fi.Name, size = fi.Length })
+        .ToArray();
+    return Results.Json(files);
+});
+
+// 4) Static files (for /images, /multimedia, /en/index.html direct request, etc.)
 app.UseStaticFiles();
 
 app.Run();
