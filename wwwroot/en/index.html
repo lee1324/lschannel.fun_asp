@@ -570,115 +570,51 @@
         }
         
         function loadMusic() {
-            console.log('=== loadMusic() called ===');
             const contentDiv = document.getElementById('music-contents');
-            if (!contentDiv) {
-                console.error('ERROR: music-contents element not found');
-                return;
-            }
-            console.log('✓ Found music-contents div');
-            
-            // List of music video files from multimedia/music folder
-            const musicVideos = [
-                'v0300fg10000cuhffhfog65tb5b391ug.MP4',
-                'v0300fg10000cuhfi7fog65hfrf1k05g.MP4',
-                'v1e00fgi0000cut4p77og65ohigvn790.MP4',
-                'v1e00fgi0000cuuof9nog65vq40vhad0.MP4'
-            ];
-            
-            console.log('Clearing contentDiv...');
-            contentDiv.innerHTML = '';
-            
-            // Use absolute path from webapp root
+            if (!contentDiv) return;
+            contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9;">Loading…</p>';
             const basePath = '';
-            console.log('Base path:', basePath);
-            
-            musicVideos.forEach((filename, index) => {
-                const videoPath = basePath + '/multimedia/music/' + filename;
-                console.log(`Creating video thumbnail ${index + 1}/${musicVideos.length}: ${filename}`);
-                
-                const thumbnailDiv = document.createElement('div');
-                thumbnailDiv.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
-                thumbnailDiv.onmouseenter = function() {
-                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
-                    this.style.opacity = '0.9';
-                };
-                thumbnailDiv.onmouseleave = function() {
-                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
-                    this.style.opacity = '1';
-                };
-                
-                // Create canvas for thumbnail - set display size first
-                const canvas = document.createElement('canvas');
-                canvas.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
-                // Set canvas resolution to match display size (will be scaled by CSS)
-                canvas.width = 400;
-                canvas.height = 225; // 16:9 aspect ratio
-                
-                // Create hidden video to capture thumbnail
-                const tempVideo = document.createElement('video');
-                tempVideo.src = videoPath;
-                tempVideo.preload = 'metadata';
-                tempVideo.muted = true;
-                tempVideo.playsInline = true;
-                tempVideo.style.cssText = 'display: none; width: 400px; height: 225px;';
-                
-                tempVideo.onloadedmetadata = function() {
-                    try {
-                        this.currentTime = 0.5;
-                    } catch(e) {
-                        console.warn('Could not set currentTime:', e);
-                    }
-                };
-                
-                tempVideo.onseeked = function() {
-                    try {
-                        const ctx = canvas.getContext('2d');
-                        // Draw video frame scaled to canvas size, maintaining aspect ratio
-                        const videoAspect = this.videoWidth / this.videoHeight;
-                        const canvasAspect = canvas.width / canvas.height;
-                        let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
-                        
-                        if (videoAspect > canvasAspect) {
-                            // Video is wider - fit to height
-                            drawHeight = canvas.height;
-                            drawWidth = drawHeight * videoAspect;
-                            offsetX = (canvas.width - drawWidth) / 2;
-                        } else {
-                            // Video is taller - fit to width
-                            drawWidth = canvas.width;
-                            drawHeight = drawWidth / videoAspect;
-                            offsetY = (canvas.height - drawHeight) / 2;
+            fetch(basePath + '/multimedia/music/db.json')
+                .then(r => r.json())
+                .then(data => {
+                    const list = data.list || [];
+                    contentDiv.innerHTML = '';
+                    list.forEach((item) => {
+                        const filename = item.filename;
+                        const base = filename.replace(/\.[^/.]+$/, '');
+                        const videoPath = basePath + '/multimedia/music/videos/' + encodeURIComponent(filename);
+                        const coverPath = basePath + '/multimedia/music/covers_generated/' + encodeURIComponent(base + '_cover.png');
+                        const durationDisplay = item.durationDisplay || '';
+                        const card = document.createElement('div');
+                        card.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
+                        card.onmouseenter = function() {
+                            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+                            this.style.opacity = '0.9';
+                        };
+                        card.onmouseleave = function() {
+                            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                            this.style.opacity = '1';
+                        };
+                        const img = document.createElement('img');
+                        img.loading = 'lazy';
+                        img.src = coverPath;
+                        img.alt = base;
+                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                        img.onerror = function() { this.style.background = 'rgba(0, 0, 0, 0.7)'; };
+                        card.appendChild(img);
+                        if (durationDisplay) {
+                            const durationLabel = document.createElement('span');
+                            durationLabel.textContent = durationDisplay;
+                            durationLabel.style.cssText = 'position: absolute; bottom: 6px; right: 6px; padding: 2px 6px; font-size: 0.75rem; font-weight: 600; background: rgba(0,0,0,0.75); color: #fff; border-radius: 4px;';
+                            card.appendChild(durationLabel);
                         }
-                        
-                        ctx.drawImage(tempVideo, offsetX, offsetY, drawWidth, drawHeight);
-                        console.log('✓ Thumbnail captured:', filename);
-                        tempVideo.remove();
-                    } catch(e) {
-                        console.warn('Could not capture thumbnail:', e);
-                        canvas.style.background = 'rgba(0, 0, 0, 0.7)';
-                    }
-                };
-                
-                tempVideo.onerror = function(e) {
-                    console.error('✗ Video error:', filename, 'Path:', videoPath, 'Error:', e);
-                    canvas.style.background = 'rgba(0, 0, 0, 0.7)';
-                };
-                
-                thumbnailDiv.appendChild(canvas);
-                document.body.appendChild(tempVideo);
-                
-                thumbnailDiv.onclick = () => {
-                    console.log('Video clicked, loading full video:', filename);
-                    playVideo(videoPath);
-                };
-                
-                contentDiv.appendChild(thumbnailDiv);
-                console.log('✓ Appended video thumbnail to DOM');
-            });
-            
-            console.log('=== Finished loading', musicVideos.length, 'music videos ===');
-            console.log('ContentDiv children count:', contentDiv.children.length);
+                        card.onclick = () => playVideo(videoPath);
+                        contentDiv.appendChild(card);
+                    });
+                })
+                .catch(() => {
+                    contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9;">Could not load music list.</p>';
+                });
         }
         
         function formatSize(bytes) {
