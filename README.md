@@ -78,12 +78,28 @@ sudo systemctl start nginx
 **2. Get SSL certificate from Let's Encrypt**:
 
 ```bash
-sudo certbot --nginx -d lschannel.fun -d www.lschannel.fun
+sudo certbot certonly --nginx -d lschannel.fun
 ```
 
-This will automatically configure Nginx with SSL certificates.
+If certbot can't automatically configure nginx (common), it will still obtain the certificate. Then proceed to step 3.
 
-**3. Manual Nginx configuration** (if certbot didn't configure it automatically):
+**Note**: If you also want to support `www.lschannel.fun`, first add a DNS A record for `www.lschannel.fun` pointing to your server's IP, then run:
+```bash
+sudo certbot certonly --nginx -d lschannel.fun -d www.lschannel.fun
+```
+
+**3. Configure Nginx with SSL** (required after obtaining certificate):
+
+**Option A: Use the setup script** (easiest):
+
+```bash
+scp setup-https.sh user@server:/tmp/
+ssh user@server
+chmod +x /tmp/setup-https.sh
+sudo /tmp/setup-https.sh
+```
+
+**Option B: Manual configuration**:
 
 Copy `nginx-lschannel.fun.conf` to your server:
 
@@ -95,6 +111,8 @@ sudo ln -s /etc/nginx/sites-available/lschannel.fun /etc/nginx/sites-enabled/
 sudo nginx -t  # Test configuration
 sudo systemctl reload nginx
 ```
+
+**Note**: The nginx config file only includes `lschannel.fun` (without www). If you want to support `www.lschannel.fun`, first add a DNS A record for it, then update the `server_name` directives in the nginx config to include `www.lschannel.fun`.
 
 **4. Ensure ASP.NET Core app is running on HTTP (port 80)**:
 

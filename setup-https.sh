@@ -1,9 +1,13 @@
-# Nginx configuration for lschannel.fun
-# Place this file in /etc/nginx/sites-available/lschannel.fun
-# Then create symlink: sudo ln -s /etc/nginx/sites-available/lschannel.fun /etc/nginx/sites-enabled/
-# Test: sudo nginx -t
-# Reload: sudo systemctl reload nginx
+#!/usr/bin/env bash
+# Setup script for HTTPS on lschannel.fun
+# Run this on your remote server after obtaining the certificate
 
+set -e
+
+echo "Setting up Nginx configuration for lschannel.fun..."
+
+# Create nginx config file
+sudo tee /etc/nginx/sites-available/lschannel.fun > /dev/null <<'EOF'
 # HTTP server - redirect to HTTPS
 server {
     listen 80;
@@ -61,3 +65,24 @@ server {
         proxy_pass http://127.0.0.1:80;
     }
 }
+EOF
+
+# Create symlink if it doesn't exist
+if [ ! -L /etc/nginx/sites-enabled/lschannel.fun ]; then
+    sudo ln -s /etc/nginx/sites-available/lschannel.fun /etc/nginx/sites-enabled/lschannel.fun
+fi
+
+# Test nginx configuration
+echo "Testing Nginx configuration..."
+sudo nginx -t
+
+# Reload nginx
+echo "Reloading Nginx..."
+sudo systemctl reload nginx
+
+echo ""
+echo "✓ HTTPS setup complete!"
+echo "Test it: curl -I https://lschannel.fun"
+echo ""
+echo "Note: Make sure your ASP.NET Core app is running on port 80:"
+echo "  ASPNETCORE_URLS=http://0.0.0.0:80 ./LschannelFun"
