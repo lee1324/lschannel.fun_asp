@@ -1,372 +1,313 @@
 {
-  "notes": "title and filename are different, because title could contain newlines  whie filename doesnot,and filename contains postfix but title doesnot",
+  "note01": "Display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
+  "note03": "textAsCover 在可用文字时使用文字替代封面，否则使用封面（有的封面用到公式比如指数等用文字无法显示）",
   "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "list": [
     {
       "filename": "电子移速电流形成速度.MP4",
-      "title": "电子移速电流形成速度",
-      "durationInSeconds": "66",
-      "durationDisplay": "01:06"
+      "textAsCover": "电子移速\n电流形成速度",
+      "durationInSeconds": "66"
     },
     {
       "filename": "麦克斯韦方程组.MP4",
-      "title": "麦克斯韦方程组",
-      "durationInSeconds": "94",
-      "durationDisplay": "01:34"
+      "textAsCover": "麦克斯韦\n方程组",
+      "durationInSeconds": "94"
     },
     {
       "filename": "麦克斯韦计算光速.MP4",
-      "title": "麦克斯韦计算光速",
-      "durationInSeconds": "44",
-      "durationDisplay": "00:44"
+      "textAsCover": "麦克斯韦\n计算光速",
+      "durationInSeconds": "44"
     },
     {
       "filename": "矩阵迹几何意义.MP4",
-      "title": "矩阵迹几何意义",
-      "durationInSeconds": "116",
-      "durationDisplay": "01:56"
+      "textAsCover": "矩阵迹\n几何意义",
+      "durationInSeconds": "116"
     },
     {
       "filename": "欧拉公式可视化理解.MP4",
-      "title": "欧拉公式可视化理解",
-      "durationInSeconds": "57",
-      "durationDisplay": "00:57"
+      "textAsCover": "欧拉公式\n可视化理解",
+      "durationInSeconds": "57"
     },
     {
       "filename": "1_z.MP4",
-      "title": "1_-z",
-      "durationInSeconds": "45",
-      "durationDisplay": "00:45"
+      "textAsCover": "1/Conjugate(z)",
+      "hint":"draw a line, then '1' above it, then under it draw Conjugate(z) as a fraction(showing only z with an overline )",
+      "durationInSeconds": "45"
     },
     {
       "filename": "e^ix.MP4",
-      "title": "e^ix",
-      "durationInSeconds": "27",
-      "durationDisplay": "00:27"
+      "textAsCover": "e^ix",
+      "durationInSeconds": "27"
     },
     {
       "filename": "E=hf.MP4",
-      "title": "E = hf",
-      "durationInSeconds": "73",
-      "durationDisplay": "01:13"
+      "textAsCover": "E = hf",
+      "durationInSeconds": "73"
     },
     {
       "filename": "F=ma.MP4",
-      "title": "F = ma",
-      "durationInSeconds": "49",
-      "durationDisplay": "00:49"
+      "textAsCover": "F = ma",
+      "durationInSeconds": "49"
     },
     {
       "filename": "P=IU.MP4",
-      "title": "P = IU",
-      "durationInSeconds": "93",
-      "durationDisplay": "01:33"
+      "textAsCover": "高压输电\nU、I为何反比",
+      "durationInSeconds": "93"
     },
     {
       "filename": "e.MP4",
-      "title": "e",
-      "durationInSeconds": "61",
-      "durationDisplay": "01:01"
+      "textAsCover": "e",
+      "durationInSeconds": "61"
     },
     {
       "filename": "e=mc2.MP4",
-      "title": "e=mc2",
-      "durationInSeconds": "60",
-      "durationDisplay": "01:00"
+      "textAsCover": "E = mC^2",
+      "durationInSeconds": "60"
     },
     {
       "filename": "e^z.MP4",
-      "title": "e^z",
-      "durationInSeconds": "74",
-      "durationDisplay": "01:14"
+      "textAsCover": "e^z",
+      "durationInSeconds": "74"
     },
     {
       "filename": "e的由来.MP4",
-      "title": "e的由来",
-      "durationInSeconds": "109",
-      "durationDisplay": "01:49"
+      "textAsCover": "e的由来",
+      "durationInSeconds": "109"
     },
     {
       "filename": "historyOfTime00.MP4",
-      "title": "historyOfTime00",
-      "durationInSeconds": "51",
-      "durationDisplay": "00:51"
+      "textAsCover": "时间简史错配",
+      "durationInSeconds": "51"
     },
     {
       "filename": "三维旋转四元数.MP4",
-      "title": "三维旋转四元数",
-      "durationInSeconds": "173",
-      "durationDisplay": "02:53"
+      "textAsCover": "三维旋转\n四元数",
+      "durationInSeconds": "173"
     },
     {
       "filename": "为何首选火星.MP4",
-      "title": "为何首选火星",
-      "durationInSeconds": "64",
-      "durationDisplay": "01:04"
+      "textAsCover": "为何首选火星",
+      "durationInSeconds": "64"
     },
     {
       "filename": "交比.MP4",
-      "title": "交比",
-      "durationInSeconds": "39",
-      "durationDisplay": "00:39"
+      "textAsCover": "交比",
+      "durationInSeconds": "39"
     },
     {
       "filename": "光斑超光速相对论问题.MP4",
-      "title": "光斑超光速相对论问题",
-      "durationInSeconds": "82",
-      "durationDisplay": "01:22"
+      "textAsCover": "光斑超光速\n相对论问题",
+      "durationInSeconds": "82"
     },
     {
       "filename": "光谱.MP4",
-      "title": "光谱",
-      "durationInSeconds": "90",
-      "durationDisplay": "01:30"
+      "textAsCover": "光谱",
+      "durationInSeconds": "90"
     },
     {
       "filename": "光速不变测量方法.MP4",
-      "title": "光速不变测量方法",
-      "durationInSeconds": "127",
-      "durationDisplay": "02:07"
+      "textAsCover": "光速不变\n测量方法",
+      "durationInSeconds": "127"
     },
     {
       "filename": "光速的发现.MP4",
-      "title": "光速的发现",
-      "durationInSeconds": "71",
-      "durationDisplay": "01:11"
+      "textAsCover": "光速的发现",
+      "durationInSeconds": "71"
     },
     {
       "filename": "共振现象力学解释.MP4",
-      "title": "共振现象力学解释",
-      "durationInSeconds": "93",
-      "durationDisplay": "01:33"
+      "textAsCover": "共振现象\n力学解释",
+      "durationInSeconds": "93"
     },
     {
       "filename": "减速上坡力学解释.MP4",
-      "title": "减速上坡力学解释",
-      "durationInSeconds": "143",
-      "durationDisplay": "02:23"
+      "textAsCover": "减速上坡\n力学解释",
+      "durationInSeconds": "143"
     },
     {
       "filename": "函数面积.MP4",
-      "title": "函数面积",
-      "durationInSeconds": "58",
-      "durationDisplay": "00:58"
+      "textAsCover": "函数面积",
+      "durationInSeconds": "58"
     },
     {
       "filename": "函数面积编程计算.MP4",
-      "title": "函数面积编程计算",
-      "durationInSeconds": "19",
-      "durationDisplay": "00:19"
+      "textAsCover": "函数面积\n编程计算",
+      "durationInSeconds": "19"
     },
     {
       "filename": "动量.MP4",
-      "title": "动量",
-      "durationInSeconds": "54",
-      "durationDisplay": "00:54"
+      "textAsCover": "动量",
+      "durationInSeconds": "54"
     },
     {
       "filename": "压强.MP4",
-      "title": "压强",
-      "durationInSeconds": "84",
-      "durationDisplay": "01:24"
+      "textAsCover": "压强",
+      "durationInSeconds": "84"
     },
     {
       "filename": "双胞胎悖论.MP4",
-      "title": "双胞胎悖论",
-      "durationInSeconds": "56",
-      "durationDisplay": "00:56"
+      "textAsCover": "双胞胎悖论",
+      "durationInSeconds": "56"
     },
     {
       "filename": "变化率.MP4",
-      "title": "变化率",
-      "durationInSeconds": "124",
-      "durationDisplay": "02:04"
+      "textAsCover": "变化率",
+      "durationInSeconds": "124"
     },
     {
       "filename": "四元数1.MP4",
-      "title": "四元数1",
-      "durationInSeconds": "100",
-      "durationDisplay": "01:40"
+      "textAsCover": "四元数1",
+      "durationInSeconds": "100"
     },
     {
       "filename": "复平面.MP4",
-      "title": "复平面",
-      "durationInSeconds": "106",
-      "durationDisplay": "01:46"
+      "textAsCover": "复平面",
+      "durationInSeconds": "106"
     },
     {
       "filename": "复球面.MP4",
-      "title": "复球面",
-      "durationInSeconds": "56",
-      "durationDisplay": "00:56"
+      "textAsCover": "复球面",
+      "durationInSeconds": "56"
     },
     {
       "filename": "多普勒效应.MP4",
-      "title": "多普勒效应",
-      "durationInSeconds": "99",
-      "durationDisplay": "01:39"
+      "textAsCover": "多普勒效应",
+      "durationInSeconds": "99"
     },
     {
       "filename": "太阳能与地球生命.MP4",
-      "title": "太阳能与地球生命",
-      "durationInSeconds": "134",
-      "durationDisplay": "02:14"
+      "textAsCover": "太阳能\n地球生命",
+      "durationInSeconds": "134"
     },
     {
       "filename": "小孔成像.MP4",
-      "title": "小孔成像",
-      "durationInSeconds": "147",
-      "durationDisplay": "02:27"
+      "textAsCover": "小孔成像",
+      "durationInSeconds": "147"
     },
     {
       "filename": "有理数.MP4",
-      "title": "有理数",
-      "durationInSeconds": "31",
-      "durationDisplay": "00:31"
+      "textAsCover": "有理数",
+      "durationInSeconds": "31"
     },
     {
       "filename": "杠杆速度相对论问题.MP4",
-      "title": "杠杆速度相对论问题",
-      "durationInSeconds": "59",
-      "durationDisplay": "00:59"
+      "textAsCover": "杠杆速度\n相对论问题",
+      "durationInSeconds": "59"
     },
     {
       "filename": "标量与矢量.MP4",
-      "title": "标量与矢量",
-      "durationInSeconds": "64",
-      "durationDisplay": "01:04"
+      "textAsCover": "标量与矢量",
+      "durationInSeconds": "64"
     },
     {
       "filename": "水星进动.MP4",
-      "title": "水星进动",
-      "durationInSeconds": "33",
-      "durationDisplay": "00:33"
+      "textAsCover": "水星进动",
+      "durationInSeconds": "33"
     },
     {
       "filename": "流体侧压.MP4",
-      "title": "流体侧压",
-      "durationInSeconds": "46",
-      "durationDisplay": "00:46"
+      "textAsCover": "流体侧压",
+      "durationInSeconds": "46"
     },
     {
       "filename": "浮力.MP4",
-      "title": "浮力",
-      "durationInSeconds": "55",
-      "durationDisplay": "00:55"
+      "textAsCover": "浮力",
+      "durationInSeconds": "55"
     },
     {
       "filename": "潮汐锁定.MP4",
-      "title": "潮汐锁定",
-      "durationInSeconds": "37",
-      "durationDisplay": "00:37"
+      "textAsCover": "潮汐锁定",
+      "durationInSeconds": "37"
     },
     {
       "filename": "炸肺.MP4",
-      "title": "炸肺",
-      "durationInSeconds": "57",
-      "durationDisplay": "00:57"
+      "textAsCover": "炸肺",
+      "durationInSeconds": "57"
     },
     {
       "filename": "物理理论生命周期.MP4",
-      "title": "物理理论生命周期",
-      "durationInSeconds": "69",
-      "durationDisplay": "01:09"
+      "textAsCover": "物理理论\n生命周期",
+      "durationInSeconds": "69"
     },
     {
       "filename": "球体积和面积.MP4",
-      "title": "球体积和面积",
-      "durationInSeconds": "123",
-      "durationDisplay": "02:03"
+      "textAsCover": "球体积和面积",
+      "durationInSeconds": "123"
     },
     {
       "filename": "电压的定义动能势能.MP4",
-      "title": "电压的定义动能势能",
-      "durationInSeconds": "98",
-      "durationDisplay": "01:38"
+      "textAsCover": "电压的定义\n动能势能",
+      "durationInSeconds": "98"
     },
     {
       "filename": "第一宇宙速度.MP4",
-      "title": "第一宇宙速度",
-      "durationInSeconds": "47",
-      "durationDisplay": "00:47"
+      "textAsCover": "第一宇宙速度",
+      "durationInSeconds": "47"
     },
     {
       "filename": "能与功.MP4",
-      "title": "能与功",
-      "durationInSeconds": "166",
-      "durationDisplay": "02:46"
+      "textAsCover": "能与功",
+      "durationInSeconds": "166"
     },
     {
       "filename": "莫比乌斯变换.MP4",
-      "title": "莫比乌斯变换",
-      "durationInSeconds": "56",
-      "durationDisplay": "00:56"
+      "textAsCover": "莫比乌斯变换",
+      "durationInSeconds": "56"
     },
     {
       "filename": "虚数i的由来.MP4",
-      "title": "虚数i的由来",
-      "durationInSeconds": "106",
-      "durationDisplay": "01:46"
+      "textAsCover": "虚数i的由来",
+      "durationInSeconds": "106"
     },
     {
       "filename": "角度与弧.MP4",
-      "title": "角度与弧",
-      "durationInSeconds": "43",
-      "durationDisplay": "00:43"
+      "textAsCover": "角度与弧",
+      "durationInSeconds": "43"
     },
     {
       "filename": "认识时间相对论基础.MP4",
-      "title": "认识时间相对论基础",
-      "durationInSeconds": "94",
-      "durationDisplay": "01:34"
+      "textAsCover": "认识时间\n相对论基础",
+      "durationInSeconds": "94"
     },
     {
       "filename": "负负得正.MP4",
-      "title": "负负得正",
-      "durationInSeconds": "10",
-      "durationDisplay": "00:10"
+      "textAsCover": "负负得正",
+      "durationInSeconds": "10"
     },
     {
       "filename": "跨步电压.MP4",
-      "title": "跨步电压",
-      "durationInSeconds": "52",
-      "durationDisplay": "00:52"
+      "textAsCover": "跨步电压",
+      "durationInSeconds": "52"
     },
     {
       "filename": "速度单位换算.MP4",
-      "title": "速度单位换算",
-      "durationInSeconds": "17",
-      "durationDisplay": "00:17"
+      "textAsCover": "速度单位换算",
+      "durationInSeconds": "17"
     },
     {
       "filename": "钟慢效应迟缩效应.MP4",
-      "title": "钟慢效应迟缩效应",
-      "durationInSeconds": "97",
-      "durationDisplay": "01:37"
+      "textAsCover": "钟慢效应\n迟缩效应",
+      "durationInSeconds": "97"
     },
     {
       "filename": "长颈鹿血压.MP4",
-      "title": "长颈鹿血压",
-      "durationInSeconds": "32",
-      "durationDisplay": "00:32"
+      "textAsCover": "长颈鹿血压",
+      "durationInSeconds": "32"
     },
     {
       "filename": "音距12平分律.MP4",
-      "title": "音距12平分律",
-      "durationInSeconds": "90",
-      "durationDisplay": "01:30"
+      "textAsCover": "音距12平分律",
+      "durationInSeconds": "90"
     },
     {
       "filename": "圆锥体积.MP4",
-      "title": "圆锥体积",
-      "durationInSeconds": "58",
-      "durationDisplay": "00:58"
+      "textAsCover": "圆锥体积",
+      "durationInSeconds": "58"
     },
     {
       "filename": "圆面积.MP4",
-      "title": "圆面积",
-      "durationInSeconds": "70",
-      "durationDisplay": "01:10"
+      "textAsCover": "圆面积",
+      "durationInSeconds": "70"
     }
   ]
 }

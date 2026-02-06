@@ -130,17 +130,11 @@ app.MapPost("/api/manager/refresh/{type}", async (HttpContext context, string ty
             {
                 var fi = new FileInfo(mp4);
                 var filename = fi.Name;
-                var title = Path.GetFileNameWithoutExtension(filename);
                 var durationSec = 0;
-                var durationDisplay = "00:00";
                 if (existingDb.TryGetValue(filename, out var existing))
                 {
                     if (existing.TryGetProperty("durationInSeconds", out var ds) && int.TryParse(ds.GetString(), out var sec))
                         durationSec = sec;
-                    if (existing.TryGetProperty("durationDisplay", out var dd))
-                        durationDisplay = dd.GetString() ?? "00:00";
-                    if (existing.TryGetProperty("title", out var t))
-                        title = t.GetString() ?? title;
                 }
                 else
                 {
@@ -160,18 +154,64 @@ app.MapPost("/api/manager/refresh/{type}", async (HttpContext context, string ty
                             if (proc.ExitCode == 0 && double.TryParse(output.Trim(), out var sec))
                             {
                                 durationSec = (int)Math.Round(sec);
-                                var m = durationSec / 60;
-                                var s = durationSec % 60;
-                                durationDisplay = $"{m:D2}:{s:D2}";
                             }
                         }
                     }
                     catch { }
                 }
-                list.Add(new { filename, title, durationInSeconds = durationSec.ToString(), durationDisplay });
+                list.Add(new { filename, durationInSeconds = durationSec.ToString() });
             }
-            var db = new { notes = "title and filename are different, because title could contain newlines while filename does not, and filename contains postfix but title does not", hints = "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30", list };
+            var db = new { notes = "Display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30", list };
             await File.WriteAllTextAsync(dbPath, JsonSerializer.Serialize(db, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
+            return Results.Json(new { success = true, message = $"Refreshed {list.Count} entries" });
+        }
+        else if (type == "paintings")
+        {
+            var paintingsDir = Path.Combine(webRoot, "multimedia", "paintings");
+            var imagesDir = Path.Combine(paintingsDir, "images");
+            var dbPath = Path.Combine(paintingsDir, "db.json");
+            var generateCoversScript = Path.Combine(paintingsDir, "generate_covers.py");
+            if (!Directory.Exists(imagesDir))
+                return Results.Json(new { success = false, error = "Paintings images folder not found" });
+            var list = new List<object>();
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG", ".heic", ".HEIC" };
+            foreach (var file in Directory.GetFiles(imagesDir)
+                .Where(f => imageExtensions.Contains(Path.GetExtension(f)))
+                .Where(f => !Path.GetFileName(f).StartsWith("."))
+                .OrderBy(f => f))
+            {
+                var fi = new FileInfo(file);
+                list.Add(new { filename = fi.Name });
+            }
+            var db = new { notes = "Paintings folder - images available for display", list };
+            await File.WriteAllTextAsync(dbPath, JsonSerializer.Serialize(db, new JsonSerializerOptions { WriteIndented = true }));
+            
+            // Generate covers if script exists
+            if (File.Exists(generateCoversScript))
+            {
+                try
+                {
+                    using var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = "python3",
+                        Arguments = $"\"{generateCoversScript}\"",
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        WorkingDirectory = paintingsDir
+                    });
+                    if (proc != null)
+                    {
+                        await proc.WaitForExitAsync();
+                        // Don't fail if cover generation fails - it's optional
+                    }
+                }
+                catch
+                {
+                    // Ignore errors - cover generation is optional
+                }
+            }
+            
             return Results.Json(new { success = true, message = $"Refreshed {list.Count} entries" });
         }
         else if (type == "downloads")

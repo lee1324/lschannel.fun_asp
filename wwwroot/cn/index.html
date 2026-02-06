@@ -429,7 +429,9 @@
                         const base = filename.replace(/\.[^/.]+$/, '');
                         const videoPath = basePath + '/multimedia/lsLearns/videos/' + encodeURIComponent(filename);
                         const coverPath = basePath + '/multimedia/lsLearns/covers_generated/' + encodeURIComponent(base + '_cover.png');
-                        const durationDisplay = item.durationDisplay || '';
+                        // Calculate durationDisplay from durationInSeconds
+                        const durationSec = parseInt(item.durationInSeconds || '0', 10);
+                        const durationDisplay = durationSec > 0 ? `${Math.floor(durationSec / 60).toString().padStart(2, '0')}:${(durationSec % 60).toString().padStart(2, '0')}` : '';
                         const card = document.createElement('div');
                         card.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
                         card.onmouseenter = function() {
@@ -440,13 +442,30 @@
                             this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
                             this.style.opacity = '1';
                         };
-                        const img = document.createElement('img');
-                        img.loading = 'lazy';
-                        img.src = coverPath;
-                        img.alt = base;
-                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
-                        img.onerror = function() { this.style.background = 'rgba(0, 0, 0, 0.7)'; };
-                        card.appendChild(img);
+                        
+                        // Check if textAsCover exists
+                        if (item.textAsCover) {
+                            card.style.background = '#000';
+                            card.style.display = 'flex';
+                            card.style.alignItems = 'center';
+                            card.style.justifyContent = 'center';
+                            const titleText = document.createElement('div');
+                            // Convert ^ to superscript: e^ix -> e<sup>ix</sup>
+                            let processedText = item.textAsCover.replace(/\^([^\n\^]+)/g, '<sup>$1</sup>');
+                            // Replace 1/Conjugate(...) with fraction: 1 above line, content with overline below
+                            processedText = processedText.replace(/1\/Conjugate\(([^)]+)\)/g, '<span style="display: inline-block; text-align: center; vertical-align: middle; position: relative;"><span style="display: block; border-bottom: 2px solid currentColor; padding-bottom: 2px; margin-bottom: 2px; min-width: 1.2em; padding-left: 6px; padding-right: 6px; box-sizing: border-box;">&nbsp;1&nbsp;</span><span style="display: block; position: relative; margin-top: 2px;"><span style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 50%; border-top: 2px solid currentColor;"></span><span style="display: inline-block;">$1</span></span></span>');
+                            titleText.innerHTML = processedText;
+                            titleText.style.cssText = 'color: #fff; font-size: 38px; font-family: Arial, sans-serif; text-align: center; padding: 1rem; word-wrap: break-word; white-space: pre-line;';
+                            card.appendChild(titleText);
+                        } else {
+                            const img = document.createElement('img');
+                            img.loading = 'lazy';
+                            img.src = coverPath;
+                            img.alt = base;
+                            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                            img.onerror = function() { this.style.background = 'rgba(0, 0, 0, 0.7)'; };
+                            card.appendChild(img);
+                        }
                         if (durationDisplay) {
                             const durationLabel = document.createElement('span');
                             durationLabel.textContent = durationDisplay;
@@ -471,64 +490,64 @@
             }
             console.log('✓ Found paintings-contents div');
             
-            // List of painting files from multimedia/paintings folder
-            const paintings = [
-                'psc (1).jpeg', 'psc (1).png', 'psc (10).jpeg', 'psc (11).jpeg',
-                'psc (12).jpeg', 'psc (13).jpeg', 'psc (14).jpeg', 'psc (15).jpeg',
-                'psc (16).jpeg', 'psc (17).jpeg', 'psc (18).jpeg', 'psc (19).jpeg',
-                'psc (2).jpeg', 'psc (2).png', 'psc (20).jpeg', 'psc (21).jpeg',
-                'psc (22).jpeg', 'psc (23).jpeg', 'psc (24).jpeg', 'psc (25).jpeg',
-                'psc (3).jpeg', 'psc (3).png', 'psc (4).jpeg', 'psc (4).png',
-                'psc (5).jpeg', 'psc (6).jpeg', 'psc (7).jpeg', 'psc (8).jpeg',
-                'psc (9).jpeg', 'psc.jpeg', 'psc.png'
-            ];
-            
-            console.log('Clearing contentDiv...');
-            contentDiv.innerHTML = '';
-            
-            // Use absolute path from webapp root
+            contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9;">加载中…</p>';
             const basePath = '';
-            console.log('Base path:', basePath);
-            
-            paintings.forEach((filename, index) => {
-                const imagePath = basePath + '/multimedia/paintings/' + filename;
-                console.log(`Creating image ${index + 1}/${paintings.length}: ${filename}`);
-                
-                const thumbnailDiv = document.createElement('div');
-                thumbnailDiv.className = 'painting-thumbnail';
-                thumbnailDiv.style.cssText = 'position: relative !important; width: 100% !important; aspect-ratio: 1 !important; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
-                thumbnailDiv.onmouseenter = function() {
-                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
-                    this.style.opacity = '0.9';
-                };
-                thumbnailDiv.onmouseleave = function() {
-                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
-                    this.style.opacity = '1';
-                };
-                
-                const img = document.createElement('img');
-                img.loading = 'lazy';
-                img.src = imagePath;
-                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
-                img.onload = function() {
-                    console.log('✓ Image thumbnail loaded:', filename);
-                };
-                img.onerror = function(e) {
-                    console.error('✗ Image error:', filename, 'Path:', imagePath, 'Error:', e);
-                };
-                
-                thumbnailDiv.appendChild(img);
-                thumbnailDiv.onclick = () => {
-                    console.log('Image clicked:', filename);
-                    showImage(imagePath);
-                };
-                
-                contentDiv.appendChild(thumbnailDiv);
-                console.log('✓ Appended image element to DOM');
-            });
-            
-            console.log('=== Finished loading', paintings.length, 'paintings ===');
-            console.log('ContentDiv children count:', contentDiv.children.length);
+            fetch(basePath + '/multimedia/paintings/db.json')
+                .then(r => r.json())
+                .then(data => {
+                    const list = data.list || [];
+                    console.log('✓ Loaded', list.length, 'paintings from db.json');
+                    contentDiv.innerHTML = '';
+                    
+                    list.forEach((item, index) => {
+                        const filename = item.filename;
+                        const base = filename.replace(/\.[^/.]+$/, '');
+                        const imagePath = basePath + '/multimedia/paintings/images/' + encodeURIComponent(filename);
+                        const coverPath = basePath + '/multimedia/paintings/covers_generated/' + encodeURIComponent(base + '_cover.png');
+                        console.log(`Creating image ${index + 1}/${list.length}: ${filename}`);
+                        
+                        const thumbnailDiv = document.createElement('div');
+                        thumbnailDiv.className = 'painting-thumbnail';
+                        thumbnailDiv.style.cssText = 'position: relative !important; width: 100% !important; aspect-ratio: 1 !important; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
+                        thumbnailDiv.onmouseenter = function() {
+                            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+                            this.style.opacity = '0.9';
+                        };
+                        thumbnailDiv.onmouseleave = function() {
+                            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                            this.style.opacity = '1';
+                        };
+                        
+                        const img = document.createElement('img');
+                        img.loading = 'lazy';
+                        img.src = coverPath;
+                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                        img.onload = function() {
+                            console.log('✓ Cover thumbnail loaded:', filename);
+                        };
+                        img.onerror = function(e) {
+                            // Fallback to full image if cover doesn't exist
+                            console.warn('Cover not found, using full image:', coverPath);
+                            this.src = imagePath;
+                        };
+                        
+                        thumbnailDiv.appendChild(img);
+                        thumbnailDiv.onclick = () => {
+                            console.log('Image clicked:', filename);
+                            showImage(imagePath);
+                        };
+                        
+                        contentDiv.appendChild(thumbnailDiv);
+                        console.log('✓ Appended image element to DOM');
+                    });
+                    
+                    console.log('=== Finished loading', list.length, 'paintings ===');
+                    console.log('ContentDiv children count:', contentDiv.children.length);
+                })
+                .catch(error => {
+                    console.error('Error loading paintings:', error);
+                    contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9; color: #ff6b6b;">加载手绘失败</p>';
+                });
         }
         
         function showImage(imagePath) {
@@ -584,7 +603,9 @@
                         const base = filename.replace(/\.[^/.]+$/, '');
                         const videoPath = basePath + '/multimedia/music/videos/' + encodeURIComponent(filename);
                         const coverPath = basePath + '/multimedia/music/covers_generated/' + encodeURIComponent(base + '_cover.png');
-                        const durationDisplay = item.durationDisplay || '';
+                        // Calculate durationDisplay from durationInSeconds
+                        const durationSec = parseInt(item.durationInSeconds || '0', 10);
+                        const durationDisplay = durationSec > 0 ? `${Math.floor(durationSec / 60).toString().padStart(2, '0')}:${(durationSec % 60).toString().padStart(2, '0')}` : '';
                         const card = document.createElement('div');
                         card.style.cssText = 'position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; background: rgba(0, 0, 0, 0.5); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: box-shadow 0.3s ease, opacity 0.3s ease;';
                         card.onmouseenter = function() {
@@ -595,13 +616,30 @@
                             this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
                             this.style.opacity = '1';
                         };
-                        const img = document.createElement('img');
-                        img.loading = 'lazy';
-                        img.src = coverPath;
-                        img.alt = base;
-                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
-                        img.onerror = function() { this.style.background = 'rgba(0, 0, 0, 0.7)'; };
-                        card.appendChild(img);
+                        
+                        // Check if textAsCover exists
+                        if (item.textAsCover) {
+                            card.style.background = '#000';
+                            card.style.display = 'flex';
+                            card.style.alignItems = 'center';
+                            card.style.justifyContent = 'center';
+                            const titleText = document.createElement('div');
+                            // Convert ^ to superscript: e^ix -> e<sup>ix</sup>
+                            let processedText = item.textAsCover.replace(/\^([^\n\^]+)/g, '<sup>$1</sup>');
+                            // Replace 1/Conjugate(...) with fraction: 1 above line, content with overline below
+                            processedText = processedText.replace(/1\/Conjugate\(([^)]+)\)/g, '<span style="display: inline-block; text-align: center; vertical-align: middle; position: relative;"><span style="display: block; border-bottom: 2px solid currentColor; padding-bottom: 2px; margin-bottom: 2px; min-width: 1.2em; padding-left: 6px; padding-right: 6px; box-sizing: border-box;">&nbsp;1&nbsp;</span><span style="display: block; position: relative; margin-top: 2px;"><span style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 50%; border-top: 2px solid currentColor;"></span><span style="display: inline-block;">$1</span></span></span>');
+                            titleText.innerHTML = processedText;
+                            titleText.style.cssText = 'color: #fff; font-size: 38px; font-family: Arial, sans-serif; text-align: center; padding: 1rem; word-wrap: break-word; white-space: pre-line;';
+                            card.appendChild(titleText);
+                        } else {
+                            const img = document.createElement('img');
+                            img.loading = 'lazy';
+                            img.src = coverPath;
+                            img.alt = base;
+                            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                            img.onerror = function() { this.style.background = 'rgba(0, 0, 0, 0.7)'; };
+                            card.appendChild(img);
+                        }
                         if (durationDisplay) {
                             const durationLabel = document.createElement('span');
                             durationLabel.textContent = durationDisplay;
@@ -712,6 +750,8 @@
                 const tab = event.data.tab;
                 if (tab === 'lsLearns') {
                     switchTab('lsLearns');
+                } else if (tab === 'paintings') {
+                    switchTab('paintings');
                 } else if (tab === 'music') {
                     switchTab('music');
                 } else if (tab === 'downloads') {

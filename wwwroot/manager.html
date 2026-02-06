@@ -84,6 +84,7 @@
         <div id="manager-panel" class="manager-panel">
             <h2>Reload Data</h2>
             <button class="refresh-btn" onclick="reloadData('lsLearns')">🔄 Reload lsLearns</button>
+            <button class="refresh-btn" onclick="reloadData('paintings')">🔄 Reload Paintings</button>
             <button class="refresh-btn" onclick="reloadData('music')">🔄 Reload Music</button>
             <button class="refresh-btn" onclick="reloadData('downloads')">🔄 Reload Downloads</button>
             <div id="status" class="status" style="display: none;"></div>
@@ -124,7 +125,9 @@
             statusDiv.style.display = 'block';
             statusDiv.textContent = `Reloading ${type}...`;
             statusDiv.className = 'status';
-            const hash = type === 'lsLearns' ? '#lsLearns' : type === 'music' ? '#music' : '#download';
+            
+            // Map type to hash
+            const hash = type === 'lsLearns' ? '#lsLearns' : type === 'paintings' ? '#paintings' : type === 'music' ? '#music' : '#download';
             const mainUrl = window.location.origin + '/en/' + hash;
             const win = window.open(mainUrl, '_blank');
             setTimeout(() => {
