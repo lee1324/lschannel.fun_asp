@@ -705,6 +705,21 @@
             return div.innerHTML;
         }
         
+        // Listen for reload messages from manager
+        window.addEventListener('message', function(event) {
+            if (event.origin !== window.location.origin) return;
+            if (event.data && event.data.type === 'reload') {
+                const tab = event.data.tab;
+                if (tab === 'lsLearns') {
+                    switchTab('lsLearns');
+                } else if (tab === 'music') {
+                    switchTab('music');
+                } else if (tab === 'downloads') {
+                    switchTab('download');
+                }
+            }
+        });
+        
         // Handle initial hash on page load
         window.addEventListener('DOMContentLoaded', function() {
             let hash = window.location.hash.substring(1);
