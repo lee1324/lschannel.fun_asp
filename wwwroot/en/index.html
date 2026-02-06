@@ -31,7 +31,7 @@
             backdrop-filter: blur(10px);
             padding: 1rem 0;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
@@ -41,6 +41,12 @@
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
+        }
+        
+        @media (min-width: 768px) {
+            .navbar {
+                justify-content: center;
+            }
         }
         
         .navbar::-webkit-scrollbar {
@@ -787,6 +793,12 @@
         
         // Handle initial hash on page load
         window.addEventListener('DOMContentLoaded', function() {
+            // Ensure navbar scrolls to left on mobile
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                navbar.scrollLeft = 0;
+            }
+            
             let hash = window.location.hash.substring(1);
             // Redirect old #science hash to #lsLearns
             if (hash === 'science') {
