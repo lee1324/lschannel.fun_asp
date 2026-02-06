@@ -124,7 +124,26 @@ sudo systemctl reload nginx
 
 **Note**: The nginx config file only includes `lschannel.fun` (without www). If you want to support `www.lschannel.fun`, first add a DNS A record for it, then update the `server_name` directives in the nginx config to include `www.lschannel.fun`.
 
-**4. Run ASP.NET Core app on port 8080**:
+**4. Stop any process using port 80**:
+
+Before starting nginx, make sure nothing is using port 80. Check what's using it:
+
+```bash
+sudo netstat -tlnp | grep :80
+# Or
+sudo lsof -i:80
+```
+
+If your ASP.NET Core app is running on port 80, stop it first:
+
+```bash
+# Find and kill the process
+sudo lsof -t -i:80 | xargs sudo kill
+# Or if that doesn't work:
+sudo killall LschannelFun
+```
+
+**5. Run ASP.NET Core app on port 8080**:
 
 The deployment scripts are configured to run the app on port 8080 by default (see deployment instructions above). This allows nginx to bind to port 80 for HTTPS reverse proxy.
 
