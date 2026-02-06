@@ -29,7 +29,7 @@
         .navbar {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            padding: 1rem 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,6 +37,19 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        .navbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .navbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         
         .nav-tabs {
@@ -44,7 +57,8 @@
             gap: 0;
             list-style: none;
             margin: 0;
-            padding: 0;
+            padding: 0 2rem;
+            flex-shrink: 0;
         }
         
         .nav-tab {
