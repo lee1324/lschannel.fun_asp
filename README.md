@@ -62,3 +62,66 @@ ASPNETCORE_URLS=http://0.0.0.0:80 ./LschannelFun
 Or with a specific port: `ASPNETCORE_URLS=http://0.0.0.0:8080 ./LschannelFun`
 
 The server must have .NET 8 runtime (or SDK) installed. No need to install the runtime on the server if you use the self-contained build instead: run `./build-deploy.sh` and use the generated `LschannelFun-linux-x64.tar.gz`.
+
+## Set up HTTPS with Nginx and Let's Encrypt
+
+For production HTTPS on `lschannel.fun`, you need to set up Nginx as a reverse proxy with SSL certificates.
+
+**1. Install Nginx and Certbot** (on CentOS/RHEL):
+
+```bash
+sudo yum install -y nginx certbot python3-certbot-nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+```
+
+**2. Get SSL certificate from Let's Encrypt**:
+
+```bash
+sudo certbot --nginx -d lschannel.fun -d www.lschannel.fun
+```
+
+This will automatically configure Nginx with SSL certificates.
+
+**3. Manual Nginx configuration** (if certbot didn't configure it automatically):
+
+Copy `nginx-lschannel.fun.conf` to your server:
+
+```bash
+scp nginx-lschannel.fun.conf user@server:/tmp/
+ssh user@server
+sudo cp /tmp/nginx-lschannel.fun.conf /etc/nginx/sites-available/lschannel.fun
+sudo ln -s /etc/nginx/sites-available/lschannel.fun /etc/nginx/sites-enabled/
+sudo nginx -t  # Test configuration
+sudo systemctl reload nginx
+```
+
+**4. Ensure ASP.NET Core app is running on HTTP (port 80)**:
+
+The app should run on HTTP (port 80) as shown in the deployment instructions. Nginx will handle HTTPS (port 443) and proxy requests to the app.
+
+**5. Firewall configuration**:
+
+Ensure ports 80 and 443 are open:
+
+```bash
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+```
+
+**6. Auto-renewal** (Let's Encrypt certificates expire every 90 days):
+
+Certbot should set up a systemd timer automatically. Verify:
+
+```bash
+sudo systemctl status certbot.timer
+```
+
+**Troubleshooting HTTPS issues**:
+
+- Check if Nginx is running: `sudo systemctl status nginx`
+- Check Nginx error logs: `sudo tail -f /var/log/nginx/error.log`
+- Verify SSL certificate: `sudo certbot certificates`
+- Test HTTPS connection: `curl -I https://lschannel.fun`
+- Ensure DNS points to your server: `dig lschannel.fun`
