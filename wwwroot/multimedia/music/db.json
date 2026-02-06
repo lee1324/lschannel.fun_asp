@@ -1,0 +1,30 @@
+{
+  "notes": "title and filename are different, because title could contain newlines while filename does not, and filename contains postfix but title does not",
+  "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
+  "list": [
+    {
+      "filename": "只要为你活一天.MP4",
+      "title": "只要为你活一天",
+      "durationInSeconds": "67",
+      "durationDisplay": "01:07"
+    },
+    {
+      "filename": "水魂S1.MP4",
+      "title": "水魂S1",
+      "durationInSeconds": "22",
+      "durationDisplay": "00:22"
+    },
+    {
+      "filename": "解药.MP4",
+      "title": "解药",
+      "durationInSeconds": "56",
+      "durationDisplay": "00:56"
+    },
+    {
+      "filename": "谁.MP4",
+      "title": "谁",
+      "durationInSeconds": "24",
+      "durationDisplay": "00:24"
+    }
+  ]
+}

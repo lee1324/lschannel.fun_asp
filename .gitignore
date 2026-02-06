@@ -1,4 +1,4 @@
-# Build results
+#Build results
 [Dd]ebug/
 [Rr]elease/
 [Bb]in/
@@ -99,7 +99,7 @@ TestResult.xml
 *.Coverage
 
 # Project: media (copy in locally per README)
-wwwroot/multimedia/
+#wwwroot/multimedia/
 
 # Deploy packs and deploy config (build artifacts / server-specific)
 *.gz

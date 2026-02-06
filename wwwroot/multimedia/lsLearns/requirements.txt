@@ -1,0 +1,4 @@
+opencv-python-headless>=4.5.0
+easyocr>=1.6.0
+numpy>=1.19.0
+mutagen>=1.45.0
