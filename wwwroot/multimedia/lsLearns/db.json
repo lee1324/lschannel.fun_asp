@@ -1,13 +1,7 @@
 {
-  "note01": "Display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "note03": "textAsCover 在可用文字时使用文字替代封面，否则使用封面（有的封面用到公式比如指数等用文字无法显示）",
   "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "list": [
-    {
-      "filename": "电子移速电流形成速度.MP4",
-      "textAsCover": "电子移速\n电流形成速度",
-      "durationInSeconds": "66"
-    },
     {
       "filename": "麦克斯韦方程组.MP4",
       "textAsCover": "麦克斯韦\n方程组",
@@ -17,6 +11,16 @@
       "filename": "麦克斯韦计算光速.MP4",
       "textAsCover": "麦克斯韦\n计算光速",
       "durationInSeconds": "44"
+    },
+    {
+      "filename": "频率&旋律&度.m4v",
+      "textAsCover": "频率&度",
+      "durationInSeconds": "93"
+    },
+    {
+      "filename": "电子移速电流形成速度.MP4",
+      "textAsCover": "电子移速\n电流形成速度",
+      "durationInSeconds": "66"
     },
     {
       "filename": "矩阵迹几何意义.MP4",
@@ -261,7 +265,7 @@
     },
     {
       "filename": "角度与弧.MP4",
-      "textAsCover": "角度与弧",
+      "textAsCover": "角\n度与弧",
       "durationInSeconds": "43"
     },
     {
@@ -296,7 +300,7 @@
     },
     {
       "filename": "音距12平分律.MP4",
-      "textAsCover": "音距12平分律",
+      "textAsCover": "音距\n12平分律",
       "durationInSeconds": "90"
     },
     {

@@ -1,22 +1,37 @@
 {
-  "notes": "Display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
-  "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
+  "hint": "move the original cover(1st frame) up ( or move your clipping view down equally) by coverOffset",
+  "hint2": "then clip by size of frame.(take part by specified position)",
   "list": [
+      {
+        "filename": "谁.MP4",
+        "durationInSeconds": "24",
+        "coverOffet":50
+      },
     {
       "filename": "只要为你活一天.MP4",
-      "durationInSeconds": "67"
+      "durationInSeconds": "67",
+      "coverOffet":50
     },
     {
       "filename": "水魂S1.MP4",
-      "durationInSeconds": "22"
+      "durationInSeconds": "22",
+      "coverOffet":70
     },
     {
       "filename": "解药.MP4",
-      "durationInSeconds": "56"
+      "durationInSeconds": "56",  
+      "coverOffet":56
     },
     {
-      "filename": "谁.MP4",
-      "durationInSeconds": "24"
+      "filename": "西游记.MP4",
+      "durationInSeconds": "60",
+      "coverOffet":75
+    },
+    {
+      "filename": "that girl.m4v",
+      "durationInSeconds": "22",
+      "coverOffet":80
     }
+   
   ]
 }

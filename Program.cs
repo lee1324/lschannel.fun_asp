@@ -134,9 +134,12 @@ app.MapPost("/api/manager/refresh/{type}", async (HttpContext context, string ty
                 catch { }
             }
             var list = new List<object>();
-            foreach (var mp4 in Directory.GetFiles(videosDir, "*.MP4").Concat(Directory.GetFiles(videosDir, "*.mp4")).OrderBy(f => f))
+            var videoExtensions = new[] { ".mp4", ".MP4", ".m4v", ".M4V" };
+            foreach (var videoFile in Directory.GetFiles(videosDir)
+                .Where(f => videoExtensions.Contains(Path.GetExtension(f)))
+                .OrderBy(f => f))
             {
-                var fi = new FileInfo(mp4);
+                var fi = new FileInfo(videoFile);
                 var filename = fi.Name;
                 var durationSec = 0;
                 if (existingDb.TryGetValue(filename, out var existing))
@@ -151,7 +154,7 @@ app.MapPost("/api/manager/refresh/{type}", async (HttpContext context, string ty
                         using var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
                             FileName = "ffprobe",
-                            Arguments = $"-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"{mp4}\"",
+                            Arguments = $"-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"{videoFile}\"",
                             RedirectStandardOutput = true,
                             UseShellExecute = false
                         });

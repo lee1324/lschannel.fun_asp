@@ -2,8 +2,20 @@
   "notes": "Downloads folder - files available for download",
   "list": [
     {
+      "nameDisplay":"WinRAR (windows)",
       "filename": "winrar-x64-600scp.exe",
       "sizeMB": "3.29"
+    },
+    {
+      "nameDisplay":"3D Modeling (mac)",
+      "filename": "Silo.app.zip",
+      "sizeMB": "6.60"
+    }
+    ,
+    {
+      "nameDisplay":"Virtual Audio Driver",
+      "filename": "OmiRecorderAudioDriverInstaller.pkg",
+      "sizeMB": "0.12"
     }
   ]
 }

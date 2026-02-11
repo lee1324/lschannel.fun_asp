@@ -712,7 +712,8 @@
                         a.onmouseenter = function() { this.style.background = 'rgba(255,255,255,0.25)'; };
                         a.onmouseleave = function() { this.style.background = 'rgba(255,255,255,0.15)'; };
                         const sizeText = item.sizeMB ? item.sizeMB + ' MB' : '';
-                        a.innerHTML = '<span style="font-size: 1.5rem;">📥</span><span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(item.filename) + '</span>' + (sizeText ? '<span style="opacity: 0.8; font-size: 0.9rem;">' + sizeText + '</span>' : '');
+                        const displayName = item.nameDisplay || item.filename;
+                        a.innerHTML = '<span style="font-size: 1.5rem;">📥</span><span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(displayName) + '</span>' + (sizeText ? '<span style="opacity: 0.8; font-size: 0.9rem;">' + sizeText + '</span>' : '');
                         contentDiv.appendChild(a);
                     });
                 })

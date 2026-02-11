@@ -56,7 +56,7 @@ def main():
     if not os.path.isdir(video_dir):
         print("No videos/ folder found.")
         return
-    mp4_files = [f for f in os.listdir(video_dir) if f.lower().endswith(".mp4")]
+    mp4_files = [f for f in os.listdir(video_dir) if f.lower().endswith((".mp4", ".m4v"))]
     if not mp4_files:
         print("No .mp4 files found in videos/.")
         return
