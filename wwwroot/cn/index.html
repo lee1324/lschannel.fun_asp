@@ -448,7 +448,7 @@
             if (!contentDiv) return;
             contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9;">加载中…</p>';
             const basePath = '';
-            fetch(basePath + '/multimedia/lsLearns/db.json')
+            fetch(basePath + '/multimedia/lsLearns/cn/db.json')
                 .then(r => r.json())
                 .then(data => {
                     const list = data.list || [];
@@ -456,8 +456,8 @@
                     list.forEach((item, index) => {
                         const filename = item.filename;
                         const base = filename.replace(/\.[^/.]+$/, '');
-                        const videoPath = basePath + '/multimedia/lsLearns/videos/' + encodeURIComponent(filename);
-                        const coverPath = basePath + '/multimedia/lsLearns/covers_generated/' + encodeURIComponent(base + '_cover.png');
+                        const videoPath = basePath + '/multimedia/lsLearns/cn/videos/' + encodeURIComponent(filename);
+                        const coverPath = basePath + '/multimedia/lsLearns/cn/covers_generated/' + encodeURIComponent(base + '_cover.png');
                         // Calculate durationDisplay from durationInSeconds
                         const durationSec = parseInt(item.durationInSeconds || '0', 10);
                         const durationDisplay = durationSec > 0 ? `${Math.floor(durationSec / 60).toString().padStart(2, '0')}:${(durationSec % 60).toString().padStart(2, '0')}` : '';

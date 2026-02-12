@@ -112,7 +112,77 @@ app.MapPost("/api/manager/refresh/{type}", async (HttpContext context, string ty
         return Results.Json(new { success = false, error = "Invalid token" }, statusCode: 401);
     try
     {
-        if (type == "lsLearns" || type == "music")
+        if (type == "lsLearns")
+        {
+            var languages = new[] { "cn", "en" };
+            var totalEntries = 0;
+            foreach (var lang in languages)
+            {
+                var folder = Path.Combine(webRoot, "multimedia", type, lang);
+                var videosDir = Path.Combine(folder, "videos");
+                var dbPath = Path.Combine(folder, "db.json");
+                if (!Directory.Exists(videosDir))
+                    continue;
+                var existingDb = new Dictionary<string, JsonElement>();
+                if (File.Exists(dbPath))
+                {
+                    try
+                    {
+                        var existingJson = await File.ReadAllTextAsync(dbPath);
+                        var existing = JsonSerializer.Deserialize<JsonElement>(existingJson);
+                        if (existing.TryGetProperty("list", out var listProp))
+                            foreach (var item in listProp.EnumerateArray())
+                                if (item.TryGetProperty("filename", out var fn))
+                                    existingDb[fn.GetString() ?? ""] = item;
+                    }
+                    catch { }
+                }
+                var list = new List<object>();
+                var videoExtensions = new[] { ".mp4", ".MP4", ".m4v", ".M4V" };
+                foreach (var videoFile in Directory.GetFiles(videosDir)
+                    .Where(f => videoExtensions.Contains(Path.GetExtension(f)))
+                    .OrderBy(f => f))
+                {
+                    var fi = new FileInfo(videoFile);
+                    var filename = fi.Name;
+                    var durationSec = 0;
+                    if (existingDb.TryGetValue(filename, out var existing))
+                    {
+                        if (existing.TryGetProperty("durationInSeconds", out var ds) && int.TryParse(ds.GetString(), out var sec))
+                            durationSec = sec;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            using var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = "ffprobe",
+                                Arguments = $"-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"{videoFile}\"",
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false
+                            });
+                            if (proc != null)
+                            {
+                                var output = await proc.StandardOutput.ReadToEndAsync();
+                                await proc.WaitForExitAsync();
+                                if (proc.ExitCode == 0 && double.TryParse(output.Trim(), out var sec))
+                                {
+                                    durationSec = (int)Math.Round(sec);
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                    list.Add(new { filename, durationInSeconds = durationSec.ToString() });
+                }
+                var db = new { notes = "Display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30", list };
+                await File.WriteAllTextAsync(dbPath, JsonSerializer.Serialize(db, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
+                totalEntries += list.Count;
+            }
+            return Results.Json(new { success = true, message = $"Refreshed {totalEntries} entries across {languages.Length} languages" });
+        }
+        else if (type == "music")
         {
             var folder = Path.Combine(webRoot, "multimedia", type);
             var videosDir = Path.Combine(folder, "videos");

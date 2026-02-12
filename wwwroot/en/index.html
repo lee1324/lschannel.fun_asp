@@ -450,7 +450,7 @@
             if (!contentDiv) return;
             contentDiv.innerHTML = '<p style="grid-column: 1/-1; opacity: 0.9;">Loading…</p>';
             const basePath = '';
-            fetch(basePath + '/multimedia/lsLearns/db.json')
+            fetch(basePath + '/multimedia/lsLearns/en/db.json')
                 .then(r => r.json())
                 .then(data => {
                     const list = data.list || [];
@@ -458,8 +458,9 @@
                     list.forEach((item, index) => {
                         const filename = item.filename;
                         const base = filename.replace(/\.[^/.]+$/, '');
-                        const videoPath = basePath + '/multimedia/lsLearns/videos/' + encodeURIComponent(filename);
-                        const coverPath = basePath + '/multimedia/lsLearns/covers_generated/' + encodeURIComponent(base + '_cover.png');
+                        const videoPathLang = basePath + '/multimedia/lsLearns/en/videos/' + encodeURIComponent(filename);
+                        const videoPathFallback = basePath + '/multimedia/lsLearns/cn/videos/' + encodeURIComponent(filename);
+                        const coverPath = basePath + '/multimedia/lsLearns/en/covers_generated/' + encodeURIComponent(base + '_cover.png');
                         // Calculate durationDisplay from durationInSeconds
                         const durationSec = parseInt(item.durationInSeconds || '0', 10);
                         const durationDisplay = durationSec > 0 ? `${Math.floor(durationSec / 60).toString().padStart(2, '0')}:${(durationSec % 60).toString().padStart(2, '0')}` : '';
@@ -514,7 +515,7 @@
                             stickIcon.appendChild(arrow);
                             card.appendChild(stickIcon);
                         }
-                        card.onclick = () => playVideo(videoPath);
+                        card.onclick = () => playVideoWithFallback(videoPathLang, videoPathFallback);
                         contentDiv.appendChild(card);
                     });
                 })
@@ -736,6 +737,10 @@
         }
         
         function playVideo(videoPath) {
+            playVideoWithFallback(videoPath, null);
+        }
+        
+        function playVideoWithFallback(videoPathLang, videoPathFallback) {
             // Create or get video modal
             let modal = document.getElementById('video-modal');
             if (!modal) {
@@ -754,8 +759,17 @@
             }
             
             const video = modal.querySelector('video');
-            // videoPath already includes ../ prefix if needed
-            video.src = videoPath;
+            let triedFallback = false;
+            
+            // Try language-specific path first
+            video.src = videoPathLang;
+            video.onerror = function() {
+                if (!triedFallback && videoPathFallback) {
+                    triedFallback = true;
+                    video.src = videoPathFallback;
+                    video.load();
+                }
+            };
             video.load();
             modal.classList.add('active');
             
