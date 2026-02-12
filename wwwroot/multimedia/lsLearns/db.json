@@ -3,6 +3,11 @@
   "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "list": [
     {
+      "filename": "e^ix.MP4",
+      "textAsCover": "欧拉公式\n可视化",
+      "durationInSeconds": "27"
+    },
+    {
       "filename": "麦克斯韦方程组.MP4",
       "textAsCover": "麦克斯韦\n方程组",
       "durationInSeconds": "94"
@@ -12,10 +17,27 @@
       "textAsCover": "麦克斯韦\n计算光速",
       "durationInSeconds": "44"
     },
+
+    {
+      "filename": "跨步电压.MP4",
+      "textAsCover": "跨步电压",
+      "durationInSeconds": "52"
+    },
     {
       "filename": "频率&旋律&度.m4v",
       "textAsCover": "频率&度",
       "durationInSeconds": "93"
+    },
+    {
+      "filename": "光斑超光速相对论问题.MP4",
+      "textAsCover": "光斑超光速\n相对论问题",
+      "durationInSeconds": "82"
+    },
+
+    {
+      "filename": "小孔成像.MP4",
+      "textAsCover": "小孔成像",
+      "durationInSeconds": "147"
     },
     {
       "filename": "电子移速电流形成速度.MP4",
@@ -38,11 +60,7 @@
       "hint":"draw a line, then '1' above it, then under it draw Conjugate(z) as a fraction(showing only z with an overline )",
       "durationInSeconds": "45"
     },
-    {
-      "filename": "e^ix.MP4",
-      "textAsCover": "e^ix",
-      "durationInSeconds": "27"
-    },
+    
     {
       "filename": "E=hf.MP4",
       "textAsCover": "E = hf",
@@ -98,11 +116,7 @@
       "textAsCover": "交比",
       "durationInSeconds": "39"
     },
-    {
-      "filename": "光斑超光速相对论问题.MP4",
-      "textAsCover": "光斑超光速\n相对论问题",
-      "durationInSeconds": "82"
-    },
+    
     {
       "filename": "光谱.MP4",
       "textAsCover": "光谱",
@@ -183,11 +197,7 @@
       "textAsCover": "太阳能\n地球生命",
       "durationInSeconds": "134"
     },
-    {
-      "filename": "小孔成像.MP4",
-      "textAsCover": "小孔成像",
-      "durationInSeconds": "147"
-    },
+    
     {
       "filename": "有理数.MP4",
       "textAsCover": "有理数",
@@ -278,11 +288,7 @@
       "textAsCover": "负负得正",
       "durationInSeconds": "10"
     },
-    {
-      "filename": "跨步电压.MP4",
-      "textAsCover": "跨步电压",
-      "durationInSeconds": "52"
-    },
+    
     {
       "filename": "速度单位换算.MP4",
       "textAsCover": "速度单位换算",

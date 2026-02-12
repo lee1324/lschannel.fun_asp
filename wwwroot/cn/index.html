@@ -453,7 +453,7 @@
                 .then(data => {
                     const list = data.list || [];
                     contentDiv.innerHTML = '';
-                    list.forEach((item) => {
+                    list.forEach((item, index) => {
                         const filename = item.filename;
                         const base = filename.replace(/\.[^/.]+$/, '');
                         const videoPath = basePath + '/multimedia/lsLearns/videos/' + encodeURIComponent(filename);
@@ -500,6 +500,17 @@
                             durationLabel.textContent = durationDisplay;
                             durationLabel.style.cssText = 'position: absolute; bottom: 6px; right: 6px; padding: 2px 6px; font-size: 0.75rem; font-weight: 600; background: rgba(0,0,0,0.75); color: #fff; border-radius: 4px;';
                             card.appendChild(durationLabel);
+                        }
+                        if (index < 3) {
+                            const stickIcon = document.createElement('div');
+                            stickIcon.style.cssText = 'position: absolute; top: 6px; right: 6px; display: flex; flex-direction: column; align-items: center; gap: 1px; pointer-events: none;';
+                            const line = document.createElement('span');
+                            line.style.cssText = 'display: block; width: 10px; height: 2px; background: rgba(255,255,255,0.9); border-radius: 1px;';
+                            const arrow = document.createElement('span');
+                            arrow.style.cssText = 'display: block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 5px solid rgba(255,255,255,0.9);';
+                            stickIcon.appendChild(line);
+                            stickIcon.appendChild(arrow);
+                            card.appendChild(stickIcon);
                         }
                         card.onclick = () => playVideo(videoPath);
                         contentDiv.appendChild(card);
