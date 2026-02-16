@@ -83,6 +83,7 @@
         </div>
         <div id="manager-panel" class="manager-panel">
             <h2>Reload Data</h2>
+            <button class="refresh-btn" onclick="reloadCache()">📂 Reload all (db.json &amp; pages)</button>
             <button class="refresh-btn" onclick="reloadData('lsLearns')">🔄 Reload lsLearns</button>
             <button class="refresh-btn" onclick="reloadData('paintings')">🔄 Reload Paintings</button>
             <button class="refresh-btn" onclick="reloadData('music')">🔄 Reload Music</button>
@@ -113,6 +114,35 @@
             })
             .catch(() => {
                 errorDiv.textContent = 'Login failed';
+            });
+        }
+        function reloadCache() {
+            const token = sessionStorage.getItem('manager_token');
+            if (!token) {
+                alert('Please login first');
+                return;
+            }
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = 'Clearing cache...';
+            statusDiv.className = 'status';
+            fetch('/api/manager/reload-cache', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    statusDiv.textContent = '✓ ' + (data.message || 'Cache cleared. db.json and pages will reload on next request.');
+                    statusDiv.className = 'status success';
+                } else {
+                    statusDiv.textContent = '✗ ' + (data.error || 'Failed');
+                    statusDiv.className = 'status error';
+                }
+            })
+            .catch(() => {
+                statusDiv.textContent = '✗ Request failed';
+                statusDiv.className = 'status error';
             });
         }
         function reloadData(type) {

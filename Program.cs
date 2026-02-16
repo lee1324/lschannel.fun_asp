@@ -1,3 +1,4 @@
+using LschannelFun;
 using Microsoft.AspNetCore.Http.Features;
 using System.Security.Cryptography;
 using System.Text;
@@ -17,6 +18,13 @@ builder.Services.Configure<FormOptions>(o =>
 {
     o.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024; // 2 GB
 });
+
+builder.Services.AddSingleton(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    return new ReloadableFileCache(Path.Combine(env.ContentRootPath, "wwwroot"));
+});
+builder.Services.AddHostedService<ReloadCacheHostedService>();
 
 var app = builder.Build();
 
@@ -98,6 +106,23 @@ app.MapGet("/api/manager/verify", (HttpContext context) =>
         return Results.Json(new { valid = token == expected });
     }
     return Results.Json(new { valid = false });
+});
+
+// 5b) Manager API: reload cache (db.json and HTML pages) so next request reads from disk
+app.MapPost("/api/manager/reload-cache", (HttpContext context) =>
+{
+    var auth = context.Request.Headers.Authorization.ToString();
+    if (!auth.StartsWith("Bearer "))
+        return Results.Json(new { success = false, error = "Unauthorized" }, statusCode: 401);
+    var token = auth.Substring(7);
+    var expected = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes($"ls:{DateTime.UtcNow:yyyyMMdd}")));
+    if (token != expected)
+        return Results.Json(new { success = false, error = "Invalid token" }, statusCode: 401);
+    var cache = context.RequestServices.GetService<ReloadableFileCache>();
+    if (cache == null)
+        return Results.Json(new { success = false, error = "Cache not available" }, statusCode: 500);
+    cache.InvalidateAll();
+    return Results.Json(new { success = true, message = "Cache cleared; db.json and web pages will be reloaded on next request." });
 });
 
 // 6) Manager API: refresh data
