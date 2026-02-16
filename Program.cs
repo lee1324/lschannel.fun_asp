@@ -61,19 +61,49 @@ app.Use(async (context, next) =>
     if (filePath != null && File.Exists(filePath))
     {
         context.Response.ContentType = "text/html; charset=utf-8";
+        // Cache HTML pages for 1 hour, then revalidate
+        context.Response.Headers.CacheControl = "max-age=3600, must-revalidate";
         await context.Response.SendFileAsync(filePath);
         return;
     }
     await next();
 });
 
-// 3) Manager: serve manager.html
+// 3) Manager: serve manager.html (handle /manager, /manager.html, /manager/html)
 app.MapGet("/manager", async (HttpContext context) =>
 {
     var managerPath = Path.Combine(webRoot, "manager.html");
     if (File.Exists(managerPath))
     {
         context.Response.ContentType = "text/html; charset=utf-8";
+        // Cache manager page for 1 hour, then revalidate
+        context.Response.Headers.CacheControl = "max-age=3600, must-revalidate";
+        await context.Response.SendFileAsync(managerPath);
+    }
+    else
+        context.Response.StatusCode = 404;
+});
+app.MapGet("/manager.html", async (HttpContext context) =>
+{
+    var managerPath = Path.Combine(webRoot, "manager.html");
+    if (File.Exists(managerPath))
+    {
+        context.Response.ContentType = "text/html; charset=utf-8";
+        // Cache manager page for 1 hour, then revalidate
+        context.Response.Headers.CacheControl = "max-age=3600, must-revalidate";
+        await context.Response.SendFileAsync(managerPath);
+    }
+    else
+        context.Response.StatusCode = 404;
+});
+app.MapGet("/manager/html", async (HttpContext context) =>
+{
+    var managerPath = Path.Combine(webRoot, "manager.html");
+    if (File.Exists(managerPath))
+    {
+        context.Response.ContentType = "text/html; charset=utf-8";
+        // Cache manager page for 1 hour, then revalidate
+        context.Response.Headers.CacheControl = "max-age=3600, must-revalidate";
         await context.Response.SendFileAsync(managerPath);
     }
     else
@@ -361,6 +391,23 @@ app.MapGet("/api/downloads", () =>
 });
 
 // 4) Static files (for /images, /multimedia, /en/index.html direct request, etc.)
-app.UseStaticFiles();
+// Configure cache headers: db.json files cache for 1 hour, other static files cache longer
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var path = ctx.Context.Request.Path.Value ?? "";
+        // db.json files: cache for 1 hour, then revalidate (matches server-side cache refresh)
+        if (path.EndsWith("/db.json", StringComparison.OrdinalIgnoreCase))
+        {
+            ctx.Context.Response.Headers.CacheControl = "max-age=3600, must-revalidate";
+        }
+        // Other static files (images, videos, etc.): cache longer
+        else
+        {
+            ctx.Context.Response.Headers.CacheControl = "max-age=86400"; // 24 hours
+        }
+    }
+});
 
 app.Run();
