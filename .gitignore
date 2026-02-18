@@ -1,3 +1,7 @@
+# Deploy staging/release output (local)
+deploy/staging/
+deploy/release/
+
 #Build results
 [Dd]ebug/
 [Rr]elease/
