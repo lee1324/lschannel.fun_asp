@@ -8,6 +8,11 @@
       "durationInSeconds": "27"
     },
     {
+      "filename": "AreaOfCircle.m4v",
+      "textAsCover": "Area of Circle",
+      "durationInSeconds": "38"
+    },
+    {
       "filename": "麦克斯韦方程组.MP4",
       "textAsCover": "麦克斯韦\n方程组",
       "durationInSeconds": "94"
@@ -318,11 +323,6 @@
       "filename": "圆锥体积.MP4",
       "textAsCover": "圆锥体积",
       "durationInSeconds": "58"
-    },
-    {
-      "filename": "圆面积.MP4",
-      "textAsCover": "圆面积",
-      "durationInSeconds": "70"
     }
   ]
 }

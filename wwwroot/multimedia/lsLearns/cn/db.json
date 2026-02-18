@@ -18,6 +18,11 @@
       "durationInSeconds": "44"
     },
     {
+      "filename": "圆面积.m4v",
+      "textAsCover": "圆面积",
+      "durationInSeconds": "38"
+    },
+    {
       "filename": "mobius klein.m4v",
       "textAsCover": "莫比乌斯环\n克莱因瓶",
       "durationInSeconds": "36"
@@ -318,11 +323,6 @@
       "filename": "圆锥体积.MP4",
       "textAsCover": "圆锥体积",
       "durationInSeconds": "58"
-    },
-    {
-      "filename": "圆面积.MP4",
-      "textAsCover": "圆面积",
-      "durationInSeconds": "70"
     }
   ]
 }
