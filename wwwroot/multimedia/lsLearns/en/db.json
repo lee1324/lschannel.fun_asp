@@ -3,8 +3,8 @@
   "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "list": [
     {
-      "filename": "e^ix.MP4",
-      "textAsCover": "欧拉公式\n可视化",
+      "filename": "Euler Formula en.m4v",
+      "textAsCover": "Euler Formula",
       "durationInSeconds": "27"
     },
     {
@@ -58,11 +58,6 @@
       "filename": "trace of a matrix with cap.m4v",
       "textAsCover": "Trace of Matrix",
       "durationInSeconds": "116"
-    },
-    {
-      "filename": "欧拉公式可视化理解.MP4",
-      "textAsCover": "欧拉公式\n可视化理解",
-      "durationInSeconds": "57"
     },
     {
       "filename": "1_z.MP4",
