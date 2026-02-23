@@ -24,8 +24,13 @@
     },
     {
       "filename": "圆面积.m4v",
-      "textAsCover": "圆面积",
+      "textAsCover": "圆面积\n初等算法",
       "durationInSeconds": "38"
+    },
+    {
+      "filename": "圆面积02.mov",
+      "textAsCover": "圆面积\n初等算法2",
+      "durationInSeconds": "22"
     },
     {
       "filename": "mobius klein.m4v",
