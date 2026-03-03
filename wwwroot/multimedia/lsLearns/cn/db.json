@@ -3,7 +3,7 @@
   "hints": "display durationInSeconds in format of xx:xx, like 90secs should be displayed as 01:30",
   "list": [
     {
-      "filename": "e^ix.MP4",
+      "filename": "e^ix.m4v",
       "textAsCover": "欧拉公式\n可视化",
       "durationInSeconds": "27"
     },
@@ -16,6 +16,11 @@
       "filename": "麦克斯韦计算光速.MP4",
       "textAsCover": "麦克斯韦\n计算光速",
       "durationInSeconds": "44"
+    },
+    {
+      "filename": "正余弦.m4v",
+      "textAsCover": "正余弦",
+      "durationInSeconds": "18"
     },
     {
       "filename": "圆锥体积2.m4v",
